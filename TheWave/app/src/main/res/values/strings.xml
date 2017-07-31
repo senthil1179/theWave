@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">TheWave</string>
+    <string name="title_activity_book_resource">BookResource</string>
+
+    <string-array name="resources">
+        <item>Room_1</item>
+        <item>Room_2</item>
+        <item>Desk_1</item>
+        <item>Desk_2</item>
+        <item>Auditorium</item>
+        <item>printer_1</item>
+        <item>Printer_2</item>
+        <item>Scanner</item>
+    </string-array>
+
+    <string-array name="Session">
+        <item>Session_1</item>
+        <item>Session_2</item>
+        <item>Session_3</item>
+        <item>Session_4</item>
+    </string-array>
+
+</resources>
