@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     EditText ET_Name, ET_Pass;
@@ -23,16 +24,24 @@ public class MainActivity extends AppCompatActivity {
     }
     public void userLogin(View view)
     {
-
         userName=ET_Name.getText().toString();
         userPass=ET_Pass.getText().toString();
         String method ="login";
         BackgroundTask backgroundTask=new BackgroundTask((this));
+        backgroundTask.setOnPostExecuteMethodToRun(new BackgroundTask.RunnableArg(this) {
+            @Override
+            public void run () {
+                if (success == 1) {
+                    Intent intent_initialiseTask = new Intent(runnableContext, InitialiseTask.class );
+                    //intent_initialiseTask.putExtra("userName", userName);
+                    runnableContext.startActivity(intent_initialiseTask);
+                } else {
+                    Toast.makeText(runnableContext, "Login Failed.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
         backgroundTask.execute(method, userName, userPass);
 
-        Intent intent_initialiseTask = new Intent(this, InitialiseTask.class );
-       // intent_initialiseTask.putExtra("userName", userName);
-        this.startActivity(intent_initialiseTask);
 
 
        /* Intent intent_bookResource = new Intent(this, BookResource.class);
