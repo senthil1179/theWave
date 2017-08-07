@@ -15,6 +15,9 @@ package com.sp.thewave;
         import android.widget.Toast;
         import android.widget.AdapterView.OnItemSelectedListener;
 
+        import org.json.JSONException;
+        import org.json.JSONObject;
+
         import java.util.ArrayList;
         import java.util.List;
 
@@ -134,12 +137,25 @@ public class BookResource extends AppCompatActivity implements OnItemSelectedLis
 
             Toast.makeText(BookResource.this, "Select session", Toast.LENGTH_LONG).show();
         } else {
-           // Toast.makeText(BookResource.this, "Inside book else"+ userName, Toast.LENGTH_LONG).show();
-            BackgroundTask backgroundTask = new BackgroundTask((this));
+            BackgroundTask backgroundTask=new BackgroundTask(){
+                @Override
+                public void onPostExecuteCallback (JSONObject json) {
+                    try {
+                        // json success tag
+                        int success = json.getInt("success");
+                        if (success == 1) {
+                            Toast.makeText(BookResource.this, "Booking Successful", Toast.LENGTH_LONG).show();
+                            Intent intent_initialiseTask = new Intent(BookResource.this, InitialiseTask.class );
+                            BookResource.this.startActivity(intent_initialiseTask);
+                        } else {
+                            Toast.makeText(BookResource.this, "Booking Already available.", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+
+                    }
+                }
+            };
             backgroundTask.execute(method, selectResource, selectDate, selectSession, userName);
-           // Toast.makeText(BookResource.this, "Action Completed", Toast.LENGTH_LONG).show();
-            Intent intent_initialiseTask = new Intent(this, InitialiseTask.class );
-             this.startActivity(intent_initialiseTask);
         }
 
 

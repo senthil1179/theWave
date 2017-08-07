@@ -7,8 +7,8 @@
 //////////////////////////////
 // Replace these two character strings with the name and
 // password of your WiFi network.
-const char mySSID[] = "AndroidAP";
-const char myPSK[] = "uoqa3914";
+const char mySSID[] = "theWave";
+const char myPSK[] = "zicl8928";
 
 //////////////////////////////
 // ESP8266Server definition //

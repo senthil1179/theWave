@@ -21,7 +21,7 @@ $userPass =$_POST['userPass'];
 $sql_query = "Select * from user_info where userName like '$userName' and userPass like '$userPass';";
 $result = mysqli_query($con, $sql_query);
 if(mysqli_num_rows($result)>0) {
-        // successfully inserted into database
+        // found a record in database
         $response["success"] = 1;
         $response["message"] = "Login Successful.";
 
@@ -35,4 +35,5 @@ if(mysqli_num_rows($result)>0) {
         // echoing JSON response
         echo json_encode($response);
     }
+mysqli_close($con);
 ?>

@@ -1,9 +1,14 @@
 package com.sp.thewave;
 
         import android.app.Activity;
+        import android.content.Intent;
         import android.os.Bundle;
         import android.view.View;
         import android.widget.EditText;
+        import android.widget.Toast;
+
+        import org.json.JSONException;
+        import org.json.JSONObject;
 
 /**
  * Created by Raman Kannan on 7/6/2017.
@@ -33,7 +38,22 @@ public class Register extends Activity {
         phoneNumber=ET_phoneNumber.getText().toString();
         email=ET_email.getText().toString();
         String method = "register";
-        BackgroundTask backgroundTask=new BackgroundTask(this);
+        BackgroundTask backgroundTask=new BackgroundTask(){
+            @Override
+            public void onPostExecuteCallback (JSONObject json) {
+                try {
+                    // json success tag
+                    int success = json.getInt("success");
+                    if (success == 1) {
+                        Toast.makeText(Register.this, "Registration Successful", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(Register.this, "Registration Unsuccessful.", Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+
+                }
+            }
+        };
         backgroundTask.execute(method, name, nric, userName, userPass, phoneNumber, email);
         finish();
     }

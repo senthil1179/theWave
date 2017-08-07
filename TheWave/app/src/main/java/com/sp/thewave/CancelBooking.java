@@ -11,6 +11,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,11 +124,7 @@ public class CancelBooking extends AppCompatActivity implements AdapterView.OnIt
 
 //String userName = usrName;
         String method = "cancelBooking";
-        //Toast.makeText(CancelBooking.this, "Inside book before m"+ userName, Toast.LENGTH_LONG).show();
-        //userName="m";
-        //Toast.makeText(CancelBooking.this, "Inside bookafter m"+ userName, Toast.LENGTH_LONG).show();
         if (selectResource.equals("")) {
-
             Toast.makeText(CancelBooking.this, "Select resource for booking", Toast.LENGTH_LONG).show();
         } else if (selectDate.equals("")) {
 
@@ -134,12 +133,25 @@ public class CancelBooking extends AppCompatActivity implements AdapterView.OnIt
 
             Toast.makeText(CancelBooking.this, "Select session", Toast.LENGTH_LONG).show();
         } else {
-            // Toast.makeText(CancelBooking.this, "Inside book else"+ userName, Toast.LENGTH_LONG).show();
-            BackgroundTask backgroundTask = new BackgroundTask((this));
+            BackgroundTask backgroundTask=new BackgroundTask(){
+                @Override
+                public void onPostExecuteCallback (JSONObject json) {
+                    try {
+                        // json success tag
+                        int success = json.getInt("success");
+                        if (success == 1) {
+                            Toast.makeText(CancelBooking.this, "Cancellation Successful", Toast.LENGTH_LONG).show();
+                            Intent intent_initialiseTask = new Intent(CancelBooking.this, InitialiseTask.class );
+                            CancelBooking.this.startActivity(intent_initialiseTask);
+                        } else {
+                            Toast.makeText(CancelBooking.this, "Nothing to cancel....", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+
+                    }
+                }
+            };
             backgroundTask.execute(method, selectResource, selectDate, selectSession);
-          //  Toast.makeText(CancelBooking.this, "Action Completed", Toast.LENGTH_LONG).show();
-            Intent intent_initialiseTask = new Intent(this, InitialiseTask.class );
-            this.startActivity(intent_initialiseTask);
         }
 
 

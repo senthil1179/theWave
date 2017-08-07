@@ -28,13 +28,12 @@ String userName;
 
     public void bookResource(View view)
     {
-       // Intent intent = getIntent();
-
-       // userName = intent.getStringExtra("userName");
-        startActivity(new Intent(this, BookResource.class));
-       // Intent intent_bookResource = new Intent(this, BookResource.class );
-       // intent_bookResource.putExtra("userName", userName);
-       // this.startActivity(intent_bookResource);
+        Intent intent = getIntent();
+        userName = intent.getStringExtra("userName");
+        //startActivity(new Intent(this, BookResource.class));
+        Intent intent_bookResource = new Intent(this, BookResource.class );
+        intent_bookResource.putExtra("userName", userName);
+        this.startActivity(intent_bookResource);
 
 
 

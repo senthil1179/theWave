@@ -7,9 +7,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
 public class MainActivity extends AppCompatActivity {
     EditText ET_Name, ET_Pass;
     String userName, userPass;
+
+    private static final String TAG_SUCCESS = "success";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,19 +34,24 @@ public class MainActivity extends AppCompatActivity {
         userName=ET_Name.getText().toString();
         userPass=ET_Pass.getText().toString();
         String method ="login";
-        BackgroundTask backgroundTask=new BackgroundTask((this));
-        backgroundTask.setOnPostExecuteMethodToRun(new BackgroundTask.RunnableArg(this) {
+        BackgroundTask backgroundTask=new BackgroundTask(){
             @Override
-            public void run () {
-                if (success == 1) {
-                    Intent intent_initialiseTask = new Intent(runnableContext, InitialiseTask.class );
-                    //intent_initialiseTask.putExtra("userName", userName);
-                    runnableContext.startActivity(intent_initialiseTask);
-                } else {
-                    Toast.makeText(runnableContext, "Login Failed.", Toast.LENGTH_LONG).show();
+            public void onPostExecuteCallback (JSONObject json) {
+                try {
+                    // json success tag
+                    int success = json.getInt("success");
+                    if (success == 1) {
+                        Intent intent_initialiseTask = new Intent(MainActivity.this, InitialiseTask.class );
+                        intent_initialiseTask.putExtra("userName", userName);
+                        MainActivity.this.startActivity(intent_initialiseTask);
+                    } else {
+                        Toast.makeText(MainActivity.this, "Login Failed.", Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+
                 }
             }
-        });
+        };
         backgroundTask.execute(method, userName, userPass);
 
 

@@ -12,6 +12,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +33,6 @@ public class CheckStatus extends AppCompatActivity implements AdapterView.OnItem
     String selectResource;
     Button BT_getStatus, BT_OK;
     TextView TV_selectResource;
-    EditText ET_display;
-
-
 
 
     // EditText ET_Name;
@@ -44,7 +44,6 @@ public class CheckStatus extends AppCompatActivity implements AdapterView.OnItem
         BT_getStatus=(Button)findViewById(R.id.BT_getStatus);
         BT_OK=(Button)findViewById(R.id.BT_OK);
         TV_selectResource=(TextView)findViewById(R.id.TV_selectResource);
-        ET_display=(EditText)findViewById(R.id.ET_display);
 
         //Intent intent = getIntent();
         // userName = intent.getStringExtra("userName").toString();
@@ -100,13 +99,26 @@ public class CheckStatus extends AppCompatActivity implements AdapterView.OnItem
             Toast.makeText(CheckStatus.this, "Select resource for booking", Toast.LENGTH_LONG).show();
         }  else {
             // Toast.makeText(BookResource.this, "Inside book else"+ userName, Toast.LENGTH_LONG).show();
-            BackgroundTask backgroundTask = new BackgroundTask((this));
+            BackgroundTask backgroundTask=new BackgroundTask(){
+                @Override
+                public void onPostExecuteCallback (JSONObject json) {
+                    try {
+                        // json success tag
+                        int success = json.getInt("success");
+                        if (success == 1) {
+                            if (json.getInt("inUse") == 1)
+                                Toast.makeText(CheckStatus.this, "In Use", Toast.LENGTH_LONG).show();
+                            else
+                                Toast.makeText(CheckStatus.this, "NOT In Use", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(CheckStatus.this, "Error in Connection.", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+
+                    }
+                }
+            };
             backgroundTask.execute(method, selectResource);
-
-
-          Toast.makeText(CheckStatus.this, "Action Completed", Toast.LENGTH_LONG).show();
-           //Intent intent_initialiseTask = new Intent(this, InitialiseTask.class );
-            //this.startActivity(intent_initialiseTask);
         }
 
 

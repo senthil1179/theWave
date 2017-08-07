@@ -29,9 +29,7 @@ import java.net.URLEncoder;
 
 public class BackgroundTask extends AsyncTask<String, Void, String> {
     AlertDialog alertDialog;
-    Context ctx;
     String method;
-    RunnableArg onPostExecuteMethodToRun;
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -40,20 +38,16 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
     private static final String TAG_NAME = "name";
     private static final String TAG_READING = "reading";
 
-    BackgroundTask(Context ctx)
+    BackgroundTask()
     {
-        this.ctx = ctx;
+
     }
 
     @Override
     protected void onPreExecute() {
-        alertDialog=new AlertDialog.Builder(ctx).create();
-        alertDialog.setTitle("Login Information...");
+        //alertDialog=new AlertDialog.Builder(ctx).create();
+        //alertDialog.setTitle("Login Information...");
         //super.onPreExecute();
-    }
-
-    protected void setOnPostExecuteMethodToRun (RunnableArg method) {
-        onPostExecuteMethodToRun = method;
     }
 
     @Override
@@ -283,56 +277,15 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
 
     }
 
+    protected void onPostExecuteCallback (JSONObject json) {
+
+    }
+
     @Override
     protected void onPostExecute(String result){
         try {
             JSONObject json = new JSONObject(result);
-            // json success tag
-            int success = json.getInt(TAG_SUCCESS);
-
-            if(method.equals("register"))
-            {
-                if (result.equals("Registration Successful!"))
-                    Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
-            }
-            else if (method.equals("login"))
-            {
-                if (onPostExecuteMethodToRun != null) {
-                    onPostExecuteMethodToRun.runWithArgs(success);
-                }
-
-                /*
-                if (success == 1) {
-                    Toast.makeText(ctx, "Login Successful.", Toast.LENGTH_LONG).show();
-                    alertDialog.setMessage("Login Successful.");
-                    alertDialog.show();
-                } else {
-                    Toast.makeText(ctx, "Login Failed.", Toast.LENGTH_LONG).show();
-                    alertDialog.setMessage("Login Failed.");
-                    alertDialog.show();
-                }
-                */
-            }
-            else if (method.equals("book"))
-            {
-                if (result.equals("Already booked!"))
-                    Toast.makeText(ctx, result+"Please choose another session / resource.", Toast.LENGTH_LONG).show();
-                else if(result.equals("Insertion Successful!"))
-                    Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
-            }
-            else if (method.equals("cancelBooking"))
-            {
-                if(result.equals("No Booking detected!")) {
-                    Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
-                } else if (result.equals("Cancelled Booking!")) {
-                    Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
-                }
-            }
-            else if (method.equals("getStatus"))
-            {
-                alertDialog.setMessage(result);
-                alertDialog.show();
-            }
+            onPostExecuteCallback (json);
         } catch (JSONException e) {
 
         } finally {
@@ -340,6 +293,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
         }
     }
 
+    /*
     public abstract static class RunnableArg implements Runnable {
 
         int success;
@@ -354,6 +308,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
             run();
         }
     }
+    */
 }
 
 

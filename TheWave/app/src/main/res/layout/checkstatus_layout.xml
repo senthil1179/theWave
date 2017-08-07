@@ -49,25 +49,6 @@
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="30dp"
         android:id="@+id/linearLayout14">
-
-        <TextView
-            android:id="@+id/TV_Status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Status:" />
-
-        <EditText
-            android:id="@+id/ET_display"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPersonName"
-
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout13"
-            tools:layout_editor_absoluteX="0dp" />
     </LinearLayout>
 
     <Button
