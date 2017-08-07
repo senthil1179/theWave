@@ -5,10 +5,12 @@ package com.sp.thewave;
         import android.os.Bundle;
         import android.support.v7.app.AppCompatActivity;
         import android.support.v7.widget.LinearLayoutCompat;
+        import android.util.Log;
         import android.view.View;
         import android.widget.AdapterView;
         import android.widget.ArrayAdapter;
         import android.widget.Button;
+        import android.widget.CalendarView;
         import android.widget.EditText;
         import android.widget.Spinner;
         import android.widget.TextView;
@@ -30,13 +32,11 @@ package com.sp.thewave;
 
 public class BookResource extends AppCompatActivity implements OnItemSelectedListener {
 
-    TextView TV_selectDate;
     Button BT_calendar;
     Spinner SP_selectResource, SP_selectSession;
     String selectResource, selectSession, selectDate, userName;
-
-
-
+    private CalendarView myCalendarView;
+    private static final String TAG= "CalendarActivity";
    // EditText ET_Name;
   //  String userName;
     @Override
@@ -54,19 +54,21 @@ public class BookResource extends AppCompatActivity implements OnItemSelectedLis
      //  Toast.makeText(BookResource.this, "Inside BookResource"+usrName, Toast.LENGTH_LONG).show();
 
         //Code for Date picker
-        TV_selectDate = (TextView) findViewById(R.id.TV_selectDate);
-        BT_calendar = (Button) findViewById(R.id.BT_calendar);
-        Intent incomingIntent = getIntent();
-        String date = incomingIntent.getStringExtra("Date");
-        TV_selectDate.setText(date);
-        BT_calendar.setOnClickListener(new View.OnClickListener() {
+        myCalendarView = (CalendarView) findViewById(R.id.calendarView);
+        myCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener(){
             @Override
-            public void onClick(View view) {
-                Intent calendar_intent = new Intent(BookResource.this, CalendarActivity.class);
-                startActivity(calendar_intent);
+            public void onSelectedDayChange(CalendarView calendarView, int i, int i1, int i2){
+                if(i1<=9){
+                    i1=i1+1;
+                    selectDate=i+"-0"+i1+"-"+i2;
+                }else{
+                    i1=i1+1;
+                    selectDate=i+"-"+i1+"-"+i2;
+                }
+                Toast.makeText(BookResource.this, "Inside calendar"+ selectDate, Toast.LENGTH_LONG).show();
+                Log.d(TAG, "onSelectedDayChange: date "+selectDate);
             }
         });
-        selectDate = TV_selectDate.getText().toString();
 
         SP_selectResource = (Spinner) findViewById(R.id.SP_selectResource);
         SP_selectResource.setOnItemSelectedListener(this);
