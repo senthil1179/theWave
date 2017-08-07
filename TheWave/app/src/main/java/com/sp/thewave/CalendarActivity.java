@@ -27,9 +27,10 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onSelectedDayChange(CalendarView calendarView, int i, int i1, int i2){
                 if(i1<=9){
+                    i1=i1+1;
                     date=i+"-0"+i1+"-"+i2;
-
                 }else{
+                    i1=i1+1;
                     date=i+"-"+i1+"-"+i2;
                 }
                 Toast.makeText(CalendarActivity.this, "Inside calendar"+ date, Toast.LENGTH_LONG).show();
