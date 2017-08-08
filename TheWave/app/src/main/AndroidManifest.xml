@@ -21,9 +21,7 @@
         <activity android:name=".InitialiseTask"></activity>
         <activity android:name=".BookResource"></activity>
         <activity android:name=".CheckStatus"></activity>
-        <activity android:name=".CalendarActivity"></activity>
         <activity android:name=".CancelBooking"></activity>
-        <activity android:name=".CancelCalenderActivity"></activity>
     </application>
 
 </manifest>
