@@ -95,8 +95,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#E52325"
-            android:text="Cancel"
-            android:onClick="bookCancel"/>
+            android:onClick="goBack"
+            android:text="Back" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

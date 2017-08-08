@@ -53,12 +53,5 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         backgroundTask.execute(method, userName, userPass);
-
-
-
-       /* Intent intent_bookResource = new Intent(this, BookResource.class);
-        intent_bookResource.putExtra("userName", userName);
-        //myIntent.putExtra("lastName", "Your Last Name Here");
-        startActivity(intent_bookResource);*/
     }
 }

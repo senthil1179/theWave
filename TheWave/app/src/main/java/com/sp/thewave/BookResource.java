@@ -36,22 +36,14 @@ public class BookResource extends AppCompatActivity implements OnItemSelectedLis
     Spinner SP_selectResource, SP_selectSession;
     String selectResource, selectSession, selectDate, userName;
     private CalendarView myCalendarView;
-    private static final String TAG= "CalendarActivity";
-   // EditText ET_Name;
-  //  String userName;
+    private static final String TAG= "BookResource";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bookresource_layout);
-        //Intent intent = getIntent();
-       // userName = intent.getStringExtra("userName").toString();
-       // Toast.makeText(BookResource.this, "Inside BookResource"+userName, Toast.LENGTH_LONG).show();
-       // setContentView(R.layout.activity_main);
-      //  ET_Name=(EditText)findViewById(R.id.userName);
-       // userName=ET_Name.getText().toString();
-
-        //userName=usrName;
-     //  Toast.makeText(BookResource.this, "Inside BookResource"+usrName, Toast.LENGTH_LONG).show();
+        Intent intent = getIntent();
+        userName = intent.getStringExtra("userName").toString();
 
         //Code for Date picker
         myCalendarView = (CalendarView) findViewById(R.id.calendarView);
@@ -70,34 +62,28 @@ public class BookResource extends AppCompatActivity implements OnItemSelectedLis
             }
         });
 
+        // code for Resource selection
         SP_selectResource = (Spinner) findViewById(R.id.SP_selectResource);
         SP_selectResource.setOnItemSelectedListener(this);
-
-        final List<String> resources = new ArrayList<String>();
+        List<String> resources = new ArrayList<String>();
         resources.add("");
         resources.add("Room_1");
         resources.add("Room_2");
         resources.add("Desk_1");
         resources.add("Label_printer_1");
-        resources.add("printer_1");
-        resources.add("dock");
-
         ArrayAdapter<String> ResourceAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, resources);
         ResourceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         SP_selectResource.setAdapter(ResourceAdapter);
 
+        // code for Session selection
         SP_selectSession = (Spinner) findViewById(R.id.SP_selectSession);
         SP_selectSession.setOnItemSelectedListener(this);
-
-
         List<String> Session = new ArrayList<String>();
         Session.add("");
         Session.add("Session_1");
         Session.add("Session_2");
         Session.add("Session_3");
         Session.add("Session_4");
-
-
         ArrayAdapter<String> SessionAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Session);
         SessionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         SP_selectSession.setAdapter(SessionAdapter);
@@ -124,13 +110,8 @@ public class BookResource extends AppCompatActivity implements OnItemSelectedLis
 
     public void book(View view) {
 
-//String userName = usrName;
         String method = "book";
-       //Toast.makeText(BookResource.this, "Inside book before m"+ userName, Toast.LENGTH_LONG).show();
-        userName="m";
-        //Toast.makeText(BookResource.this, "Inside bookafter m"+ userName, Toast.LENGTH_LONG).show();
         if (selectResource.equals("")) {
-
             Toast.makeText(BookResource.this, "Select resource for booking", Toast.LENGTH_LONG).show();
         } else if (selectDate.equals("")) {
 
@@ -146,9 +127,10 @@ public class BookResource extends AppCompatActivity implements OnItemSelectedLis
                         // json success tag
                         int success = json.getInt("success");
                         if (success == 1) {
-                            Toast.makeText(BookResource.this, "Booking Successful", Toast.LENGTH_LONG).show();
-                            Intent intent_initialiseTask = new Intent(BookResource.this, InitialiseTask.class );
-                            BookResource.this.startActivity(intent_initialiseTask);
+                            //Toast.makeText(BookResource.this, "Booking Successful", Toast.LENGTH_LONG).show();
+                            //Intent intent_initialiseTask = new Intent(BookResource.this, InitialiseTask.class );
+                            //BookResource.this.startActivity(intent_initialiseTask);
+                            finish();
                         } else {
                             Toast.makeText(BookResource.this, "Booking Already available.", Toast.LENGTH_LONG).show();
                         }
@@ -163,33 +145,9 @@ public class BookResource extends AppCompatActivity implements OnItemSelectedLis
 
     }
 
-    public void bookCancel(View view) {
-
-/*String userName = usrName;
-        String method = "book";
-        //Toast.makeText(BookResource.this, "Inside book before m"+ userName, Toast.LENGTH_LONG).show();
-        userName="m";
-        //Toast.makeText(BookResource.this, "Inside bookafter m"+ userName, Toast.LENGTH_LONG).show();
-        if (selectResource.equals("")) {
-
-            Toast.makeText(BookResource.this, "Select resource for booking", Toast.LENGTH_LONG).show();
-        } else if (selectDate.equals("")) {
-
-            Toast.makeText(BookResource.this, "Select date", Toast.LENGTH_LONG).show();
-        } else if (selectSession.equals("")) {
-
-            Toast.makeText(BookResource.this, "Select session", Toast.LENGTH_LONG).show();
-        } else {
-            // Toast.makeText(BookResource.this, "Inside book else"+ userName, Toast.LENGTH_LONG).show();
-            BackgroundTask backgroundTask = new BackgroundTask((this));
-            backgroundTask.execute(method, selectResource, selectDate, selectSession, userName);*/
-        Toast.makeText(BookResource.this, "Cancellation in process...", Toast.LENGTH_LONG).show();
-        //Toast.makeText(BookResource.this, "Cancellation in process...", Toast.LENGTH_LONG).show();
-        //Toast.makeText(BookResource.this, "Cancellation in process...", Toast.LENGTH_LONG).show();
-       // Toast.makeText(BookResource.this, "Cancellation in process...", Toast.LENGTH_LONG).show();
-            Intent intent_initialiseTask = new Intent(this, InitialiseTask.class );
-            this.startActivity(intent_initialiseTask);
-        }
+    public void goBack(View view) {
+        finish ();
+    }
 
 
 
