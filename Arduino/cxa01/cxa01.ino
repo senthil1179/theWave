@@ -41,10 +41,13 @@ unsigned long beaconNearingDebounceCounter = 0;
 unsigned long beaconLeavingDebounceCounter = 0;
 
 unsigned long previousMillis = 0;   
-const long interval = 30000;  // interval at which to awitch the connection (milliseconds), at least 10 seconds
 typedef enum {START_FINDING_MAC, WAIT_AT, WAIT_MAC, WAIT_EXIT, CHECK_MAC_AND_SET_BOARD_ID, END_FINDING_MAC} state_type;
 state_type state = START_FINDING_MAC;
 int boardID = 0;
+const long blinkFreq = 500; 
+const int NumRcvdBeacons = 4; 
+const int interval = (blinkFreq * 2) * (NumRcvdBeacons + 1); 
+const int FragranceOnInterval = 15000; 
 
 void setup() {
   pinMode(beaconNotFoundIndicatorPin, OUTPUT);
@@ -95,29 +98,26 @@ void rssi_loop ()
   if (isBeaconFoundNearby () == true)
   {
     digitalWrite(beaconFoundIndicatorPin, HIGH);
-    delay(1500);
+    delay(blinkFreq);
     digitalWrite(beaconFoundIndicatorPin, LOW);
-    delay(1500);
       
     beaconNearingDebounceCounter++; 
   }
   else
   {
     digitalWrite(beaconNotFoundIndicatorPin, HIGH);
-    delay(1500);
+    delay(blinkFreq);
     digitalWrite(beaconNotFoundIndicatorPin, LOW);
-    delay(1500);
     
     beaconLeavingDebounceCounter++;
   }
-
   
   if (currentMillis - previousMillis >= interval) {
     previousMillis = currentMillis;
 
     if (beaconNearingDebounceCounter >= 4)
       trigger = SET_OBJECT_IN_LOCATION;
-    else
+    else if (beaconLeavingDebounceCounter >= NumRcvdBeacons)
       trigger = SET_OBJECT_LEFT_LOCATION;
 
     beaconNearingDebounceCounter = 0;
@@ -171,21 +171,6 @@ void rssi_loop ()
   }
 }
 
-#if 0
-boolean isBeaconFoundNearby() {
-  // read the input on analog pin 0:
-  int sensorValue = analogRead(A0);
-  // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
-  float voltage = sensorValue * (5.0 / 1023.0);
-  // print out the value you read:
-  //Serial.println(voltage);
-  if (voltage < 4)
-    return true;
-  else
-    return false;
-}
-#endif
-
 boolean isBeaconFoundNearby (){
     Serial.println("AT+RSSI=?"); // Ask about the RSSI
     for(int x=0 ; Serial.available() > 0 ; x++ ){    // get the Enter AT mode words
@@ -224,11 +209,8 @@ void updateDeviceInLocation()
 {
 
   digitalWrite(objectInShelfIndicatorPin, HIGH);
-  delay(500);
+  delay(2000);
   digitalWrite(objectInShelfIndicatorPin, LOW);
-  delay(500);
-
-  //return;
   
   const char destServer[] = "192.168.43.169";
   String buffer = "GET /et1544/updateDeviceInLocation.php?";
@@ -284,11 +266,8 @@ void updateDeviceLeftLocation()
 {
 
   digitalWrite(objectNotInShelfIndicatorPin, HIGH);
-  delay(500);
+  delay(2000);
   digitalWrite(objectNotInShelfIndicatorPin, LOW);
-  delay(500);  
-
-  //return;
   
   const char destServer[] = "192.168.43.169";
   String buffer = "GET /et1544/updateDeviceLeftLocation.php?";
