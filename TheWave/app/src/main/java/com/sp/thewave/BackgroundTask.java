@@ -190,7 +190,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
             String selectResource = params[1];
             String selectDate = params[2];
             String selectSession = params[3];
-
+            String userName = params[4];
 
             try {
                 URL url = new URL(cancelBooking_url);
@@ -202,7 +202,8 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
                 String data = URLEncoder.encode("selectResource", "UTF-8") + "=" + URLEncoder.encode(selectResource, "UTF-8") + "&" +
                         URLEncoder.encode("selectDate", "UTF-8") + "=" + URLEncoder.encode(selectDate, "UTF-8") + "&" +
-                        URLEncoder.encode("selectSession", "UTF-8") + "=" + URLEncoder.encode(selectSession, "UTF-8");
+                        URLEncoder.encode("selectSession", "UTF-8") + "=" + URLEncoder.encode(selectSession, "UTF-8")  + "&" +
+                        URLEncoder.encode("userName", "UTF-8") + "=" + URLEncoder.encode(userName, "UTF-8");
                 bufferedWriter.write(data);
                 bufferedWriter.flush();
                 bufferedWriter.close();
@@ -228,9 +229,6 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
         } else if (method.equals("getStatus")) {
 
             String selectResource = params[1];
-            //String selectDate = params[2];
-           // String selectSession = params[3];
-
 
             try {
                 URL url = new URL(getResourceStatus_url);
@@ -292,23 +290,6 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
 
         }
     }
-
-    /*
-    public abstract static class RunnableArg implements Runnable {
-
-        int success;
-        Context runnableContext;
-
-        RunnableArg (Context ctx) {
-            runnableContext = ctx;
-        }
-
-        public void runWithArgs (int success) {
-            this.success = success;
-            run();
-        }
-    }
-    */
 }
 
 

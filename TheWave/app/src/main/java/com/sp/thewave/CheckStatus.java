@@ -29,11 +29,14 @@ public class CheckStatus extends AppCompatActivity implements AdapterView.OnItem
 
     Spinner SP_selectResource;
     String selectResource;
+    String userName;
+    private static final String TAG= "CheckStatus";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.checkstatus_layout);
+        userName = this.getIntent().getStringExtra("userName").toString();
 
         SP_selectResource = (Spinner) findViewById(R.id.SP_selectResource);
         SP_selectResource.setOnItemSelectedListener(this);
@@ -57,19 +60,11 @@ public class CheckStatus extends AppCompatActivity implements AdapterView.OnItem
 
     }
 
-
     public void getStatus(View view) {
-
-//String userName = usrName;
         String method = "getStatus";
-        //Toast.makeText(BookResource.this, "Inside book before m"+ userName, Toast.LENGTH_LONG).show();
-       // userName="m";
-        //Toast.makeText(BookResource.this, "Inside bookafter m"+ userName, Toast.LENGTH_LONG).show();
         if (selectResource.equals("")) {
-
             Toast.makeText(CheckStatus.this, "Select resource for booking", Toast.LENGTH_LONG).show();
         }  else {
-            // Toast.makeText(BookResource.this, "Inside book else"+ userName, Toast.LENGTH_LONG).show();
             BackgroundTask backgroundTask=new BackgroundTask(){
                 @Override
                 public void onPostExecuteCallback (JSONObject json) {
@@ -77,7 +72,7 @@ public class CheckStatus extends AppCompatActivity implements AdapterView.OnItem
                         // json success tag
                         int success = json.getInt("success");
                         if (success == 1) {
-                            if (json.getInt("inUse") == 1)
+                            if (Integer.parseInt(json.getString("inUse")) == 1)
                                 Toast.makeText(CheckStatus.this, "In Use", Toast.LENGTH_LONG).show();
                             else
                                 Toast.makeText(CheckStatus.this, "NOT In Use", Toast.LENGTH_LONG).show();
@@ -91,8 +86,6 @@ public class CheckStatus extends AppCompatActivity implements AdapterView.OnItem
             };
             backgroundTask.execute(method, selectResource);
         }
-
-
     }
 
     public void goBack(View view) {

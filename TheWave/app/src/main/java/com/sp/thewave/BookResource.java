@@ -1,29 +1,21 @@
 package com.sp.thewave;
 
-        import android.content.Intent;
-        import android.nfc.Tag;
-        import android.os.Bundle;
-        import android.support.v7.app.AppCompatActivity;
-        import android.support.v7.widget.LinearLayoutCompat;
-        import android.util.Log;
-        import android.view.View;
-        import android.widget.AdapterView;
-        import android.widget.ArrayAdapter;
-        import android.widget.Button;
-        import android.widget.CalendarView;
-        import android.widget.EditText;
-        import android.widget.Spinner;
-        import android.widget.TextView;
-        import android.widget.Toast;
-        import android.widget.AdapterView.OnItemSelectedListener;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CalendarView;
+import android.widget.Spinner;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemSelectedListener;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
 
-        import org.json.JSONException;
-        import org.json.JSONObject;
-
-        import java.util.ArrayList;
-        import java.util.List;
-
-        import static com.sp.thewave.R.id.parent;
 
 /**
  * Created by Raman Kannan on 7/14/2017.
@@ -32,7 +24,6 @@ package com.sp.thewave;
 
 public class BookResource extends AppCompatActivity implements OnItemSelectedListener {
 
-    Button BT_calendar;
     Spinner SP_selectResource, SP_selectSession;
     String selectResource, selectSession, selectDate, userName;
     private CalendarView myCalendarView;
@@ -87,7 +78,6 @@ public class BookResource extends AppCompatActivity implements OnItemSelectedLis
         ArrayAdapter<String> SessionAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Session);
         SessionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         SP_selectSession.setAdapter(SessionAdapter);
-
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -130,12 +120,14 @@ public class BookResource extends AppCompatActivity implements OnItemSelectedLis
                             //Toast.makeText(BookResource.this, "Booking Successful", Toast.LENGTH_LONG).show();
                             //Intent intent_initialiseTask = new Intent(BookResource.this, InitialiseTask.class );
                             //BookResource.this.startActivity(intent_initialiseTask);
+                            Log.v(TAG, "API call returned with JSON success");
                             finish();
                         } else {
+                            Log.v(TAG, "API call returned with JSON failure");
                             Toast.makeText(BookResource.this, "Booking Already available.", Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {
-
+                        Log.v(TAG, "JSON Exception"+e.getMessage());
                     }
                 }
             };

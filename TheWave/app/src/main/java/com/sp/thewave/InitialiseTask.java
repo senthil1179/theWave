@@ -20,7 +20,11 @@ public class InitialiseTask extends AppCompatActivity {
 
     public void checkStatus(View view)
     {
-        startActivity(new Intent(this, CheckStatus.class));
+        Intent intent = getIntent();
+        userName = intent.getStringExtra("userName");
+        Intent intent_checkStatus = new Intent(this, CheckStatus.class );
+        intent_checkStatus.putExtra("userName", userName);
+        startActivity(intent_checkStatus);
     }
 
     public void bookResource(View view)
@@ -39,5 +43,10 @@ public class InitialiseTask extends AppCompatActivity {
         Intent intent_cancelBooking = new Intent(this, CancelBooking.class );
         intent_cancelBooking.putExtra("userName", userName);
         this.startActivity(intent_cancelBooking);
+    }
+
+    public void logOut(View view)
+    {
+        finish ();
     }
 }

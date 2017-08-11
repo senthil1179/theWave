@@ -117,22 +117,18 @@ public class CancelBooking extends AppCompatActivity implements AdapterView.OnIt
                 @Override
                 public void onPostExecuteCallback (JSONObject json) {
                     try {
-                        // json success tag
                         int success = json.getInt("success");
-                        if (success == 1) {
-                            //Toast.makeText(CancelBooking.this, "Cancellation Successful", Toast.LENGTH_LONG).show();
-                            //Intent intent_initialiseTask = new Intent(CancelBooking.this, InitialiseTask.class );
-                            //CancelBooking.this.startActivity(intent_initialiseTask);
+                        if (success == 0) {;
                             finish ();
                         } else {
-                            Toast.makeText(CancelBooking.this, "Nothing to cancel....", Toast.LENGTH_LONG).show();
+                            Toast.makeText(CancelBooking.this, json.getString("message"), Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {
 
                     }
                 }
             };
-            backgroundTask.execute(method, selectResource, selectDate, selectSession);
+            backgroundTask.execute(method, selectResource, selectDate, selectSession, userName);
         }
     }
 
