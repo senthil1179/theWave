@@ -124,7 +124,7 @@ public class BookResource extends AppCompatActivity implements OnItemSelectedLis
                             finish();
                         } else {
                             Log.v(TAG, "API call returned with JSON failure");
-                            Toast.makeText(BookResource.this, "Booking Already available.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(BookResource.this, "Booking NOT available.", Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {
                         Log.v(TAG, "JSON Exception"+e.getMessage());

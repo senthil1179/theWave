@@ -25,7 +25,7 @@ $rowcount=mysqli_num_rows($result);
 if($rowcount == 0) {            // error checking on $result is not done properly anywhere in scripts !
     // successfully inserted into database
     $response["success"] = 3;
-    $response["message"] = "No Booking detected done by any user!";
+    $response["message"] = "No Booking detected!";
 
     // echoing JSON response
     echo json_encode($response);
@@ -40,7 +40,7 @@ $rowcount=mysqli_num_rows($result);
 if($rowcount == 0) {            // error checking on $result is not done properly anywhere in scripts !
     // successfully inserted into database
     $response["success"] = 2;
-    $response["message"] = "No Booking detected from you!";
+    $response["message"] = "Not Authorized to Cancel!";
 
     // echoing JSON response
     echo json_encode($response);
