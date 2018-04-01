@@ -53,11 +53,18 @@ public class BackgroundTask extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
 
+        /*
         String reg_url = "http://10.0.2.2:10/theWavePHP/register.php";
         String login_url = "http://10.0.2.2:10/theWavePHP/login.php";
         String book_url = "http://10.0.2.2:10/theWavePHP/book.php";
         String cancelBooking_url = "http://10.0.2.2:10/theWavePHP/cancelBooking.php";
         String getResourceStatus_url = "http://10.0.2.2:10/theWavePHP/getResourceStatus.php";
+        */
+        String reg_url = "http://192.168.43.169:10/theWavePHP/register.php";
+        String login_url = "http://192.168.43.169:10/theWavePHP/login.php";
+        String book_url = "http://192.168.43.169:10/theWavePHP/book.php";
+        String cancelBooking_url = "http://192.168.43.169:10/theWavePHP/cancelBooking.php";
+        String getResourceStatus_url = "http://192.168.43.169:10/theWavePHP/getResourceStatus.php";
 
         method = params[0];
         if (method.equals("register")) {
